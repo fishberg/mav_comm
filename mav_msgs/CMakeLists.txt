@@ -27,6 +27,21 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs nav_msgs
 )
 
+################################################################################
+# ADDED THIS SO WE CAN INCLUDE THE HEADERS IN ./include
+################################################################################
+add_library(${PROJECT_NAME}_conversions INTERFACE)
+target_include_directories(${PROJECT_NAME}_conversions INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+install(TARGETS ${PROJECT_NAME}_conversions
+        EXPORT ${PROJECT_NAME}Targets)
+
+ament_export_targets(${PROJECT_NAME}Targets HAS_LIBRARY_TARGET)
+################################################################################
+
 ament_export_dependencies(rosidl_default_runtime)
 
 install(
